@@ -12,19 +12,41 @@ function App() {
       return;
     }
 
+    // 37:00 of the demo video is where things get tricky starting here at line 16 *** SAVED A ZIP FILE with a working APP in todo_list2 ***
+    const todoItem = {
+      text: newTodo,
+      complete: false
+    }
+
     // setTodos and pass in a brand new array contaiing all current todos plus 1 more
-    setTodos([...todos, newTodo]);
+    setTodos([...todos, todoItem]);
     setNewTodo("");
   }
 
   const handleTodoDelete = (delIdx) => {
-    const filteredTodos = todos.filter((todo, i) => {
+    const filteredTodos = todos.filter((_todo, i) => {
       return i !== delIdx;
     });
     
     setTodos(filteredTodos);
 
   };
+
+const handleToggleComplete = (idx) => {
+  const updatedTodos = todos.map((todo, i) => {
+    if (idx === i) {
+      todo.complete = !todo.complete;
+      
+      //To avoid mutating the todo directly, do this:
+      // const updatedTodo = {... todo, complete: !todo.complete};
+      // return updatedTodo;
+    }
+
+    return todo;
+  });
+
+  setTodos(updatedTodos);
+}
 
 
   return (
@@ -44,8 +66,16 @@ function App() {
       <hr />
 
       {todos.map((todo, i) => {
-        return <div>
-          <span>{todo}</span>
+        const todoClasses = ["bold", "italic"];
+        if(todo.complete) {
+          todoClasses.push("line-through");
+        }
+
+        return <div key={i}>
+          <input onChange={(event) => {
+            handleToggleComplete(i);
+          }} checked={todo.complete} type="checkbox" />
+          <span className={todoClasses.join(" ")}>{todo.text}</span>
           <button style={{marginLeft: "10px"}} onClick={(event) => {
             handleTodoDelete(i);
           }}>Delete</button>
