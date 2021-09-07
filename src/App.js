@@ -13,6 +13,7 @@ function App() {
     }
 
     // 37:00 of the demo video is where things get tricky starting here at line 16 *** SAVED A ZIP FILE with a working APP in todo_list2 ***
+    // be sure to have a good understanding of the connection between events and functions
     const todoItem = {
       text: newTodo,
       complete: false
